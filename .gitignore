@@ -1,0 +1,16 @@
+# Saladused ja masinapõhine seis — ei tohi kunagi siia puusse sattuda.
+# NB: ~/.claude/scripts alla võivad kuuluda ka teiste tööriistade failid
+# (teenusekonto võtmed, paroolidega skriptid). Seepärast on repo allikas ja
+# sinna kausta jäävad ainult symlingid — kaustapõhist `git add` siin ei tehta.
+*-sa.json
+*credentials*.json
+*.pem
+*.key
+ccdash.config.json
+ccdash-meta.json
+*.log
+*.out
+*.err
+__pycache__/
+.ccdash-chrome/
+.DS_Store

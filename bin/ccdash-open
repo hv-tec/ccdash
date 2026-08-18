@@ -1,0 +1,46 @@
+#!/bin/bash
+# ccdash-open — taga, et dashboard-server töötab, ja ava see äpiaknana.
+#
+# Kasutab Chrome'i --app režiimi: aken ilma tabide, aadressiriba ja
+# järjehoidjateta, oma ikooniga Dockis — näeb välja nagu päris rakendus.
+#
+# Kutsuvad: Desktopil olev "Claude kasutus.app" ja VS Code'i task.
+# Server ise on laisk (vt ccdash.py refresher) — jõudeolekus ei maksa midagi,
+# seega on turvaline hoida teda sisselogimisest peale taustal.
+
+set -u
+export PATH="$PATH:/opt/homebrew/bin:/usr/local/bin"
+
+PORT="${CCDASH_PORT:-8787}"
+URL="http://127.0.0.1:${PORT}/"
+LOG="$HOME/.claude/logs/ccdash.log"
+CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+
+mkdir -p "$(dirname "$LOG")"
+
+# 1. Kas server juba vastab? Kui ei, käivita ja oota, kuni port avaneb.
+if ! curl -fsS --max-time 2 -o /dev/null "${URL}api/data" 2>/dev/null; then
+  nohup /usr/bin/env python3 "$HOME/.claude/scripts/ccdash.py" \
+        --port "$PORT" --no-open >> "$LOG" 2>&1 &
+  for _ in $(seq 1 40); do          # kuni 20 s
+    curl -fsS --max-time 1 -o /dev/null "${URL}api/data" 2>/dev/null && break
+    sleep 0.5
+  done
+fi
+
+# 2. Ainult server, ilma aknata (launchd kasutab seda sisselogimisel).
+if [ "${1:-}" = "--server-only" ]; then
+  exit 0
+fi
+
+# 3. Ava äpiaken. Eraldi profiil hoiab akna sinu tavalisest Chrome'i
+#    seansist lahus, nii et see ei sega tabe ega logi sind kuhugi sisse.
+if [ -x "$CHROME" ]; then
+  "$CHROME" \
+    --app="$URL" \
+    --user-data-dir="$HOME/.claude/.ccdash-chrome" \
+    --window-size=1200,900 \
+    --no-first-run --no-default-browser-check >/dev/null 2>&1 &
+else
+  open "$URL"          # Chrome'i pole — tavaline brauser
+fi

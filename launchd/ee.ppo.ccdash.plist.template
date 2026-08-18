@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>ee.ppo.ccdash</string>
+
+    <!-- Jooksutab serverit OTSE (mitte ccdash-open kaudu), et launchd näeks
+         päris protsessi ja saaks seda KeepAlive'iga järele valvata. Akna avab
+         Desktopi äpp "Claude kasutus" või VS Code'i task — server on siis juba
+         püsti ja aken avaneb kohe. -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/env</string>
+        <string>python3</string>
+        <string>__HOME__/.claude/scripts/ccdash.py</string>
+        <string>--port</string>
+        <string>8787</string>
+        <string>--no-open</string>
+    </array>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <!-- Serveri värskendaja on laisk: kui ükski aken ei polli, magab ta
+         sündmusel ega jooksuta ccusage'it üldse. Seega püsivalt taustal
+         hoidmine ei maksa protsessoriaega. -->
+    <key>KeepAlive</key>
+    <true/>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    </dict>
+
+    <key>StandardOutPath</key>
+    <string>__HOME__/.claude/logs/ccdash.out</string>
+    <key>StandardErrorPath</key>
+    <string>__HOME__/.claude/logs/ccdash.err</string>
+</dict>
+</plist>

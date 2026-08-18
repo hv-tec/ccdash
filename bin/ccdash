@@ -1,0 +1,6 @@
+#!/bin/bash
+# ccdash — ava Claude Code kasutuse dashboard brauseris.
+# Kasutus:  ccdash            # port 8787, avab brauseri
+#           ccdash --port 8788 --no-open
+export PATH="$PATH:/opt/homebrew/bin:/usr/local/bin"
+exec /usr/bin/env python3 "$HOME/.claude/scripts/ccdash.py" "$@"

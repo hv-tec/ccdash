@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ccusage.com/config-schema.json",
+  "defaults": {
+    "pricingOverrides": {
+      "claude-opus-5": {
+        "inputCostPerToken": 0.000005,
+        "outputCostPerToken": 0.000025,
+        "cacheCreationInputTokenCost": 0.00000625,
+        "cacheReadInputTokenCost": 0.0000005,
+        "maxInputTokens": 1000000
+      }
+    }
+  }
+}
