@@ -1,8 +1,8 @@
 #!/bin/bash
-# Igapäevane Claude Code token-kasutuse jälgija (launchd: ee.ppo.token-usage-daily, 9:00).
+# Igapäevane Claude Code token-kasutuse jälgija (launchd: eu.vibetec.token-usage-daily, 9:00).
 #
 # See fail on ainult käivitaja — kogu loogika on token_usage_daily.py-s ja
-# ccusage_lib.py-s. Nimi peab jääma, sest ~/Library/LaunchAgents/ee.ppo.token-usage-daily.plist
+# ccusage_lib.py-s. Nimi peab jääma, sest ~/Library/LaunchAgents/eu.vibetec.token-usage-daily.plist
 # osutab sellele.
 #
 # Ajalugu: vana bash-versioon kirjutas hinnakirja kao korral vaikselt "$0.00" ja

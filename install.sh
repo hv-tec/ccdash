@@ -4,7 +4,7 @@
 # Teeb neli asja:
 #   1. symlingid  repo -> ~/.claude/scripts/
 #   2. seadistuse ~/.claude/ccdash.config.json (kui puudub)
-#   3. launchd    ~/Library/LaunchAgents/ee.ppo.*.plist (kui puuduvad)
+#   3. launchd    ~/Library/LaunchAgents/eu.vibetec.*.plist (kui puuduvad)
 #   4. käivitab   serveri
 #
 # EI KIRJUTA MIDAGI ÜLE. Kui mõni fail on juba olemas ja ei ole symlink sellesse
@@ -57,7 +57,7 @@ if [ ! -e "$HOME/.claude/ccusage.json" ]; then
 fi
 
 echo "3/4 launchd"
-for label in ee.ppo.ccdash ee.ppo.token-usage-daily; do
+for label in eu.vibetec.ccdash eu.vibetec.token-usage-daily; do
   plist="$AGENTS/$label.plist"
   if [ -e "$plist" ]; then
     echo "  = $label.plist on olemas, ei puutu"
@@ -68,10 +68,10 @@ for label in ee.ppo.ccdash ee.ppo.token-usage-daily; do
 done
 
 echo "4/4 käivitan"
-launchctl bootout "gui/$(id -u)/ee.ppo.ccdash" 2>/dev/null || true
-launchctl bootstrap "gui/$(id -u)" "$AGENTS/ee.ppo.ccdash.plist"
-launchctl bootout "gui/$(id -u)/ee.ppo.token-usage-daily" 2>/dev/null || true
-launchctl bootstrap "gui/$(id -u)" "$AGENTS/ee.ppo.token-usage-daily.plist"
+launchctl bootout "gui/$(id -u)/eu.vibetec.ccdash" 2>/dev/null || true
+launchctl bootstrap "gui/$(id -u)" "$AGENTS/eu.vibetec.ccdash.plist"
+launchctl bootout "gui/$(id -u)/eu.vibetec.token-usage-daily" 2>/dev/null || true
+launchctl bootstrap "gui/$(id -u)" "$AGENTS/eu.vibetec.token-usage-daily.plist"
 
 echo
 echo "Valmis. Ava dashboard:  ~/.claude/scripts/ccdash-open"

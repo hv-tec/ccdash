@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>ee.ppo.ccdash</string>
+    <string>eu.vibetec.ccdash</string>
 
     <!-- Jooksutab serverit OTSE (mitte ccdash-open kaudu), et launchd näeks
          päris protsessi ja saaks seda KeepAlive'iga järele valvata. Akna avab

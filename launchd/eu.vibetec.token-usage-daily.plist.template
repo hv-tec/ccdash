@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>ee.ppo.token-usage-daily</string>
+    <string>eu.vibetec.token-usage-daily</string>
 
     <key>ProgramArguments</key>
     <array>

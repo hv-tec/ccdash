@@ -11,9 +11,12 @@ set -euo pipefail
 SCRIPTS="$HOME/.claude/scripts"
 AGENTS="$HOME/Library/LaunchAgents"
 
-for label in ee.ppo.ccdash ee.ppo.token-usage-daily; do
+# Pärandisildid: kuni 2026-08 kandsid tööd nimesid ee.ppo.*. Kui neid maha ei võtaks,
+# jääks vana server launchd-i rippuma ja kaks protsessi prooviks sama porti 8787.
+for label in eu.vibetec.ccdash eu.vibetec.token-usage-daily \
+             ee.ppo.ccdash ee.ppo.token-usage-daily; do
   launchctl bootout "gui/$(id -u)/$label" 2>/dev/null || true
-  rm -f "$AGENTS/$label.plist" && echo "- $label"
+  [ -e "$AGENTS/$label.plist" ] && rm -f "$AGENTS/$label.plist" && echo "- $label"
 done
 
 for f in ccdash ccdash-open token-usage-daily.sh ccdash.py ccusage_lib.py token_usage_daily.py; do
