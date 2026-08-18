@@ -168,13 +168,13 @@ hinnastamata.
 → `~/.claude/ccusage.json` annab puuduvad hinnad `pricingOverrides` kaudu; kontrollitud, et
 offline+config ühtib online'iga sendi täpsusega, sh vahemälu lisatasud.
 
-**3. Ajalugu kustub.** Claude Code koristab vanu transkripte, seega ajaloolised summad
+**3. Ajalugu kustub.** Claude Code koristab vanu transkripte, nii et ajaloolised summad
 **kahanevad ajas** — üks kuu oli logi järgi $2606 ja paar nädalat hiljem näitas `ccusage`
-$2187. Kuu kumulatiivi ei tohi seega `ccusage`'ist arvutada; see tuleb liita oma logist.
+$2187. Kuu summat ei tohi seepärast `ccusage`'ist arvutada; see tuleb liita oma logist.
 → vt `month_total_from_log()` ja päevalogijat allpool.
 
-Lisaks: `check_pricing_drift()` võrdleb sinu hinnaülekirjutusi LiteLLM-i tabeliga ja
-hoiatab, kui need lahku lähevad — võrdlus käib mudeli **enda** kirje vastu, ankrut
+Lisaks võrdleb `check_pricing_drift()` sinu hinnaülekirjutusi LiteLLM-i tabeliga ja
+hoiatab, kui need lahku lähevad. Võrdlus käib mudeli **enda** kirje vastu; ankrut
 kasutatakse ainult mudelil, mida LiteLLM veel ei tunne.
 
 ### Paigaldus
@@ -224,7 +224,7 @@ CCDASH_DEMO=1 ~/.claude/scripts/ccdash   # demo-režiim, vt allpool
 python3 src/token_usage_daily.py --dry-run   # päevarida, ilma kirjutamata
 ```
 
-Server on laisk: kui keegi ei polli, ta magab ega jooksuta `ccusage`'it. Seepärast on
+Server on laisk: kui keegi ei polli, ta magab ega jooksuta `ccusage`'it. Just seetõttu on
 turvaline hoida teda launchd all kogu aeg.
 
 **Demo-režiim.** `CCDASH_DEMO=1` asendab projektinimed `demo1…demoN` (kulu järjekorras,
@@ -232,24 +232,25 @@ seega nummerdus on stabiilne) ja sessioonipealkirjad üldistega. Kulud, tokenid 
 jäävad päris. Mõeldud ekraanipildi või esitluse jaoks — sessioonipealkirjad tulevad
 `aiTitle` väljast ja on vabas vormis laused päris tööst.
 
-**Päevalogija** (launchd, 9:00) kirjutab rea faili `~/.claude/logs/token-usage-daily.log`.
+**Päevalogi.** launchd kirjutab iga päev kell 9 ühe rea faili
+`~/.claude/logs/token-usage-daily.log`.
 See on **ainus püsiv kasutusajalugu** — `ccusage` kaotab vanad päevad ja neid ei saa
 taastada. Ära kustuta seda faili ega "ehita uuesti üles".
 
 ### Mida see EI tee
 
 - **Ei näita protsenti limiidist.** Anthropic ei avalda limiiti üheski masinloetavas kohas
-  (kontrollitud: transkriptid, logid, vahemälu, `~/.claude.json`). Näidatakse tegelikke
+  (kontrollitud: transkriptid, logid, vahemälu, `~/.claude.json`). ccdash näitab tegelikke
   mahtusid ja lähtestamisaegu. Protsent: claude.ai → Settings → Usage.
 - **Ei ole mitmeplatvormiline.** launchd, `osascript`-teated ja Chrome'i äpiaken on macOS-i
   omad. Server ise (`python3 src/ccdash.py --port 8787`) töötab igal pool.
-- **Ei saada andmeid kuhugi.** Kõik jääb masinasse; võrku minnakse ainult EKP kursi,
+- **Ei saada andmeid kuhugi.** Kõik jääb masinasse; võrku läheb ccdash ainult EKP kursi,
   LiteLLM-i hinnatabeli ja `npx` pärast.
 
 ### Kes tegi
 
 [vibetec.eu](https://vibetec.eu) — minikiirendi: idee omanik ilma dev-tiimita saab töötava
-toote 2–4 nädalaga, ehitatuna AI-orkestreeritud tiimi poolt. ccdash sündis kõrvalsaadusena
+toote 2–4 nädalaga, selle ehitab AI-orkestreeritud tiim. ccdash sündis kõrvalsaadusena
 selle mõõtmisest, mis see päriselt maksab.
 
 MIT.
