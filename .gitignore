@@ -6,7 +6,7 @@
 *credentials*.json
 *.pem
 *.key
-ccdash.config.json
+/ccdash.config.json          # ISIKLIK seadistus repo juures; examples/ oma ON versioonihalduses
 ccdash-meta.json
 *.log
 *.out
