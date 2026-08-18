@@ -22,6 +22,7 @@ mkdir -p "$SCRIPTS" "$AGENTS" "$HOME/.claude/logs"
 
 link() {                       # link <allikas> <sihtnimi>
   local src="$1" dst="$SCRIPTS/$2"
+  [ -f "$src" ] || { echo "STOP: $src puudub — kas repo on terve?" >&2; exit 1; }
   if [ -L "$dst" ]; then
     local cur; cur="$(readlink "$dst")"
     [ "$cur" = "$src" ] && { echo "  = $2 (juba paigas)"; return; }
